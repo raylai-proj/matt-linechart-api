@@ -1,11 +1,16 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 import tkinter as Tk
+from tkinter import filedialog
 from utility.color import COLOR
 TIME = ["time/mn", "charge time (min)"]
 YAXIS = [""]
 EXCELNAME = "sheet1.xlsx"
+OPENFILEFOLDEREMOJI = "\U0001F4C2"
 # EXCELNAME = "3Ah cell data sheet-SOC_vs_time_111023.xlsx"
+
+def select_file():
+    return filedialog.askopenfilename(title="Open "+OPENFILEFOLDEREMOJI, filetypes=[("Excel File",".xlsx xls")])
 
 def check_valid_col(cols):
     # find valid columns for plot
@@ -20,7 +25,10 @@ def remove_suffix(val):
     # correct unit by remove suffix when having duplicated unit
     return val[:-2] if val[-2] == "." else val
 
-dfs = pd.read_excel(EXCELNAME, sheet_name=None)
+file_path = select_file()
+print("file_path:",file_path)
+
+dfs = pd.read_excel(file_path, sheet_name=None)
 for key, value in dfs.items():
     cur_df = value.copy()
     start_index = []
